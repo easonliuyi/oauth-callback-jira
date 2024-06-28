@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OAuth Callback</title>
+</head>
+<body>
+    <h1>OAuth Callback</h1>
+    <p id="message"></p>
+    <script>
+        // 从URL中提取授权码
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+        
+        // 显示授权码
+        document.getElementById('message').textContent = `Authorization Code: ${code}, State: ${state}`;
+        
+        // 发送授权码到您的服务器
+        fetch('https://your-server.com/oauth/callback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code: code, state: state })
+        }).then(response => response.json())
+          .then(data => console.log(data))
+          .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
